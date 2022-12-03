@@ -1,0 +1,20 @@
+<h1>Check Weather</h1><br>
+
+<%= form_for :weather , url: index_url , method: :get do |w| %>
+    Enter Longitude: <%= text_field :weather , :lon %><br>
+    Enter Latitude: <%= w.text_field :lat %><br>
+    <%= w.submit "Check Weather" %>
+<% end %>
+
+
+
+Date: <%= Date.today.strftime("%B, %A , %-d %p") %> <br>
+<% if @data.present? %>
+<img src="http://openweathermap.org/img/wn/<%= @data["weather"].first["icon"] %>@2x.png"/>
+
+<br>
+<h1>Weather Status:</h1> <%= @data["weather"].first["main"] %>
+<br>
+<span><h1>Country:</h1> <%= @data["sys"]["country"] %></span><br>
+<h1>Description:</h1> <%= @data["weather"].first["description"] %><br>
+<% end %>

@@ -1,0 +1,50 @@
+<h1>Editing ticket</h1>
+
+<%= form_for @ticket do |form| %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name , id: "getname" %>
+  </div>
+
+  <div>
+    <%= form.label :price, style: "display: block" %>
+    <%= form.number_field :price , id: "getprc" %>
+  </div>
+
+  <div>
+    <%= form.submit id: "submit" %>
+  </div>
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Show this ticket", @ticket %> |
+  <%= link_to "Back to tickets", tickets_path %>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('#submit').click(function(e){
+    var t_name = $("#getname").val();
+    var t_price = $("#getprc").val();
+    send_data = {name: t_name , price: t_price}
+
+    $.ajax({
+      type: "PUT",
+      url: "/tickets/"+<%= @ticket.id %>,
+      dataType: "script",
+      data: send_data,
+      beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name='csrf-token']").attr("content"))},
+      success: function(msg) {
+      alert("successfully added");
+      },
+      error: function(){
+        alert("not Added");
+      }
+    })
+    e.preventDefault();
+  })
+})
+</script>

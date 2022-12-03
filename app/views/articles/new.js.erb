@@ -1,0 +1,17 @@
+<script>
+$(document).ready(function(){
+    var a = $("#addnote");
+    $("#addnote").hide();
+    $("#note").click(function(){
+        $("#addnote").toggle();
+    })
+    $("#more").click(function(){
+       $("#note").append(a.show());
+    })
+
+    $("button").click(function(){
+    var a = $("#showdescription").val();
+    alert(a);
+    })
+})
+</script>

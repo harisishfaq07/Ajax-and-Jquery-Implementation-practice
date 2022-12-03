@@ -1,0 +1,57 @@
+<%= form_for(Book.new , remote: true)  do |form| %>
+  
+  <div class= "parent">
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name , class: "getname" %> <button id="check">Check</button>
+  </div>
+  <div>
+  <h5 id="avl">Book Available</h5>
+  <h5 id="navl">Book Not Available</h5>
+  </div>
+  <div>
+    <%= form.label :image, style: "display: block" %>
+    <%= form.file_field :image %>
+  </div><br>
+  <div>
+    <%= form.submit class: "pre" %>
+  </div>
+<% end %>
+
+
+
+<script>
+$(document).ready(function(){
+$("#avl").hide();
+$("#navl").hide();
+$(".pre").click(function(e){
+  var book_name = $(".getname").val();
+  data_send = { name: book_name }
+  $.ajax({ 
+    type: 'POST',
+    url: '/books',
+    beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name='csrf-token']").attr("content"))},
+     data: data_send,
+      success: function(data) {
+      console.log(data)
+     }
+  });
+  e.preventDefault();
+})
+})
+$(".getname").keyup(function(e){
+  var get_name = $(".getname").val();
+  send_data = {name: get_name}
+
+  $.ajax({
+    type: 'POST',
+    url: '/books/'+ get_name +'/check',
+    beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name='csrf-token']").attr("content"))},
+     data: send_data,
+     dataType: 'script',
+      success: function(data) {
+       console.log(data);
+      }
+      });
+  e.preventDefault();
+})
+</script>

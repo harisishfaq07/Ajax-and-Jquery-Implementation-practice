@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+Today Date is: <%= formate(Date.today) %>
+<h1>Cars</h1>
+Notice: <%= @notice %>
+
+<div id="cars">
+  <% @cars.each do |car| %>
+    <%= render car %>
+    <p>
+      <%= link_to "Show this car", car %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New car", new_car_path %>

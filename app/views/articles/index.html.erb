@@ -1,0 +1,24 @@
+<h1> All Article </h1>
+
+
+<table>
+
+<tr> 
+<th>Title</th>
+<th>Description</th>
+<th>Destroy</th>
+</tr>
+
+<% @articles.each do |a| %>
+    <tr id = "hover">
+    <td><%= a.title %></td>
+    <td><%= a.description %></td>
+    <td><%= link_to "Destroy" , article_path(a.id) ,data: {
+        turbo_method: :delete,
+        turbo_confirm: "Are you sure?"
+      } , :remote => true, :class => 'delete_pony' %></td>
+    </tr>
+
+    <% end %>
+</table>
+

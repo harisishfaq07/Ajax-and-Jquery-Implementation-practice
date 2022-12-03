@@ -1,0 +1,32 @@
+<h1>New event</h1>
+
+<%= form_for(@event) do |e| %>
+Name: <%= e.text_field :name , class: "getname" %> <br><br>
+City: <%= e.text_field :city , class: "getcity" %> <br><br>
+<%= e.submit  class: "submit"%>
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Back to events", events_path %>
+</div>
+
+<script>
+$(".submit").click(function(e){
+  var event_name = $(".getname").val();
+  var event_city = $(".getcity").val();
+  send_data = {name: event_name , city: event_city}
+
+  $.ajax({
+    type: 'POST',
+    url: '/events',
+    beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name='csrf-token']").attr("content"))},
+     data: send_data,
+      success: function(data) {
+      console.log(data)
+     }
+  });
+e.preventDefault();
+});
+</script>

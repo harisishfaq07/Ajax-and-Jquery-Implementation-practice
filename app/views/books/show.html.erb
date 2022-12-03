@@ -1,0 +1,66 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @book %>
+
+<div>
+  <%= link_to "Edit this book", edit_book_path(@book) %> |
+  <%= link_to "Back to books", books_path %>
+
+  <%= button_to "Destroy this book", @book, method: :delete %>
+</div>
+
+<br><br>
+<label id = "add">Add Comment</label><label id = "hide">Hide Comment</label>
+<div id = "show">
+<%= form_for @comment , remote: true do |c| %>
+
+   <%= c.text_field :name , placeholder: "Add Comment" , class: "getname"%> 
+   <%= c.hidden_field :commentable_id , value: @book.id , class: "getid"%> 
+   <%= c.hidden_field :commentable_type , value: "Book" , class: "gettype" %> 
+  <%= c.submit class: "submitcomment"%>
+
+  <% end %>
+</div>
+  <br><br>
+
+  <h4>Related Comments</h4>
+  <div id= "load">
+  <% @book.comments.each do |cb|%>
+Comment: <%= cb.name %><br>
+<% end %>
+</div> 
+
+<script>
+$(document).ready(function(){
+  $("#show").hide();
+  $("#hide").hide();
+  $("#add").click(function(){
+    $("#show").slideToggle();
+    $("#hide").show();
+    $("#add").hide();
+  })
+  $("#hide").click(function(){
+    $("#show").slideToggle();
+    $("#hide").hide();
+    $("#add").show();
+  })
+})
+
+$(".submitcomment").click(function(e){
+var comment_name = $(".getname").val();
+var comment_id = $(".getid").val();
+var comment_type = $(".gettype").val();
+send_data = {name: comment_name , commentable_id: comment_id , commentable_type: comment_type}
+$.ajax({
+  type: 'POST',
+  url: '/comments',
+  beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name='csrf-token']").attr("content"))},
+   data: send_data,
+    success: function(data) {  
+    console.log(data)
+   }
+});
+e.preventDefault();
+})
+
+</script>

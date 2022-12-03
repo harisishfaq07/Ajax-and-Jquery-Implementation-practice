@@ -1,0 +1,61 @@
+
+<h1>Article is: </h1>
+
+Name: <%= @article.title %><br>
+Descriptoin: <%= @article.description %><br>
+<% if @article.note.present? %>
+Note: <%= @article.note %><br>
+<% end %>
+Image: <%= image_tag @article.image , class: "sty"%><br>
+<% if @article.categories.present? %>
+Categories: 
+<% @article.categories.each do |ac| %>
+    <%= ac.name %>
+<% end %>
+<% end %> <br>
+
+<%= link_to "all Articles" , articles_path %> | <%= link_to "back" , :back %>
+
+<br><br>
+
+<label id = "add">Add Comment</label><label id = "hide">Hide Comment</label>
+
+<div id = "show">
+<%= form_for(Comment.new) , remote: true do |c| %>
+
+   <%= c.text_field :name , placeholder: "Add Comment" %> 
+   <%= c.hidden_field :commentable_id , value: @article.id %> 
+   <%= c.hidden_field :commentable_type , value: "Article" %> 
+  <%= c.submit %>
+  <% end %>
+</div>
+  <br><br>
+  <h4>Related Comments</h4>
+  <% @article.comments.each do |cb|%>
+Comment: <%= cb.name %><br>
+<% end %>
+
+
+<style>
+.sty{
+ width: 500px;
+ height: 250px
+}
+</style>
+
+<script>
+$(document).ready(function(){
+  $("#show").hide();
+  $("#hide").hide();
+  $("#add").click(function(){
+    $("#show").slideToggle();
+    $("#hide").show();
+    $("#add").hide();
+  })
+  $("#hide").click(function(){
+    $("#show").slideToggle();
+    $("#hide").hide();
+    $("#add").show();
+  })
+})
+</script>

@@ -1,0 +1,19 @@
+<div id="<%= dom_id book %>">
+  <p>
+    <strong>Name:</strong>
+    <%= book.name %>
+  </p><br>
+  <% if book.image&.present? %>
+  <p>
+  <strong>Image:</strong>
+  <%= image_tag book.image , class: "stylish" %>
+</p>
+<% end %>
+</div>
+
+<style>
+.stylish{
+  width: 500px;
+  height: 250px;
+}
+</style>

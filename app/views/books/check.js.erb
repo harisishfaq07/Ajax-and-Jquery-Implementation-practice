@@ -1,0 +1,9 @@
+var a = "<%= j flash[:notice] %>"
+
+if(a== "Book Available"){
+   $("#avl").show();
+   $("#navl").hide();
+}else{
+    $("#avl").hide();
+    $("#navl").show();
+}

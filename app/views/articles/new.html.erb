@@ -1,0 +1,61 @@
+<h1>Create New Article </h1>
+
+<%= form_for @article do |a| %>
+<p id = "name"> 
+     Name: <%= a.text_field :title %>
+</p>
+
+<div id = "showdescription"> 
+     Description <%= a.text_field :description  %> 
+</div>
+<label id = "note" >Enter Note</label> <label id = "upnote" >Hide Note</label>
+<p id="addnote"> 
+     <%= a.text_area :note , id: "rem" %> <label id = "more"> Add More </label>  <label id = "remove"> Discard</label>
+</p><br>
+<label id = "image" >Upload Image</label>
+<p id="addimage"> 
+     <%= a.file_field :image %>
+</p>
+
+<p> 
+<%= a.collection_check_boxes :category_ids, Category.all, :id, :name do |cb| %>
+<%= cb.label {cb.check_box + cb.text} %>
+<% end %>
+ </p>
+<p>
+<%= a.submit %>
+</p>
+
+<script>
+$(document).ready(function(){
+    var a = $("#addnote");
+    $("#addnote").hide();
+    $("#upnote").hide();
+    $("#note").click(function(){
+        $("#addnote").slideDown();
+        $("#note").hide();
+        $("#upnote").show();
+    })
+    $("#upnote").click(function(){
+        $("#addnote").slideUp();
+        $("#note").show();
+        $("#upnote").hide();
+    })
+    $("#more").click(function(){
+       $("#note").append(a.show());
+    })
+    $("#remove").click(function(){
+$("#rem").empty();
+    })
+    $("#addimage").hide();
+    $("#image").click(function(){
+        $("#addimage").toggle();
+    })
+
+    
+})
+</script>
+
+    <% end %>
+
+   
